@@ -16,12 +16,12 @@ imdb_movie_list = read.csv("imdb_movie_list.csv", header=TRUE)
 str(imdb_movie_list)
 View(imdb_movie_list)
 
-move_boxoffice_list=merge(move_tconst_list, imdb_movie_list, by = 'tconst')
-str(move_boxoffice_list)
-View(move_boxoffice_list)
+movie_boxoffice_list=merge(move_tconst_list, imdb_movie_list, by = 'tconst')
+str(movie_boxoffice_list)
+View(movie_boxoffice_list)
 
-#extra move_title_year with numVotes>=1000, averageRating>=6 
-test = filter(move_boxoffice_list, numVotes>=1000)
+#extra movie_title_year with numVotes>=1000, averageRating>=6 
+test = filter(movie_boxoffice_list, numVotes>=1000)
 summary(test$averageRating)
 str(test)
 View(test)
@@ -33,3 +33,18 @@ View(test2)
 
 write.csv(test2, file="move_title_year.csv")
 
+#extra move_directors_nconst
+movie_directors_nconst = subset(movie_boxoffice_list, directors != "\\N", select = c('directors'))
+str(movie_directors_nconst)
+View(movie_directors_nconst)
+
+
+movie_directors_nconst_s = unlist(strsplit(as.character(movie_directors_nconst$directors), ","))
+str(movie_directors_nconst_s)
+
+movie_directors_list = matrix(movie_directors_nconst_s, nrow=length(movie_directors_nconst_s))
+colnames(movie_directors_list) = c('nconst')
+str(movie_directors_list)
+View(movie_directors_list)
+
+write.csv(movie_directors_list, file="movie_directors_list.csv")
