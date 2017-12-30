@@ -2,12 +2,12 @@
 library("jsonlite")
 
 #get the move tconst list which from move box office
-move_title_tt =fromJSON("./movie_title_tt.json")
-str(move_title_tt)
-move_tconst_list=matrix(move_title_tt, nrow=length(move_title_tt))
-colnames(move_tconst_list) = 'tconst'
-str(move_tconst_list)
-View(move_tconst_list)
+movie_title_tt =fromJSON("./movie_title_tt.json")
+str(movie_title_tt)
+movie_tconst_list=matrix(movie_title_tt, nrow=length(movie_title_tt))
+colnames(movie_tconst_list) = 'tconst'
+str(movie_tconst_list)
+View(movie_tconst_list)
 
 #merge with with imdb move list
 #install.packages("dplyr")
@@ -16,7 +16,7 @@ imdb_movie_list = read.csv("imdb_movie_list.csv", header=TRUE)
 str(imdb_movie_list)
 View(imdb_movie_list)
 
-movie_boxoffice_list=merge(move_tconst_list, imdb_movie_list, by = 'tconst')
+movie_boxoffice_list=merge(movie_tconst_list, imdb_movie_list, by = 'tconst')
 str(movie_boxoffice_list)
 View(movie_boxoffice_list)
 
@@ -38,7 +38,6 @@ movie_directors_nconst = subset(movie_boxoffice_list, directors != "\\N", select
 str(movie_directors_nconst)
 View(movie_directors_nconst)
 
-
 movie_directors_nconst_s = unlist(strsplit(as.character(movie_directors_nconst$directors), ","))
 str(movie_directors_nconst_s)
 
@@ -48,3 +47,34 @@ str(movie_directors_list)
 View(movie_directors_list)
 
 write.csv(movie_directors_list, file="movie_directors_list.csv")
+
+#extra move_writers_nconst
+movie_writers_nconst = subset(movie_boxoffice_list, writers != "\\N", select = c('writers'))
+str(movie_writers_nconst)
+View(movie_writers_nconst)
+
+movie_writers_nconst_s = unlist(strsplit(as.character(movie_writers_nconst$writers), ","))
+str(movie_writers_nconst_s)
+
+movie_writers_list = matrix(movie_writers_nconst_s, nrow=length(movie_writers_nconst_s))
+colnames(movie_writers_list) = c('nconst')
+str(movie_writers_list)
+View(movie_writers_list)
+
+write.csv(movie_writers_list, file="movie_writers_list.csv")
+
+
+#extra move_principalCast_nconst
+movie_principalCast_nconst = subset(movie_boxoffice_list, principalCast != "\\N", select = c('principalCast'))
+str(movie_principalCast_nconst)
+View(movie_principalCast_nconst)
+
+movie_principalCast_nconst_s = unlist(strsplit(as.character(movie_principalCast_nconst$principalCast), ","))
+str(movie_principalCast_nconst_s)
+
+movie_principalCast_list = matrix(movie_principalCast_nconst_s, nrow=length(movie_principalCast_nconst_s))
+colnames(movie_principalCast_list) = c('nconst')
+str(movie_principalCast_list)
+View(movie_principalCast_list)
+
+write.csv(movie_principalCast_list, file="movie_principalCast_list.csv")
