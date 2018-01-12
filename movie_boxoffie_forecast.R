@@ -6,6 +6,16 @@ movie_title_data.frame = movie_title_list[, c(-1, -2, -3, -4, -6, -10 )]
 str(movie_title_data.frame)
 View(movie_title_data.frame)
 
+par(mfrow = c(1,2))
+plot(main='Movie Box Office')
+plot(movie_title_data.frame$worldGross, sub='original worldGross')
+plot(log(movie_title_data.frame$worldGross+1), sub='log(worldGross+1)')
+# plot(log(movie_title_data.frame$worldGross)+2.3026, sub='log(worldGross)+2.3026')
+# plot(sqrt(movie_title_data.frame$worldGross), sub='sqrt(worldGross)')
+# plot(1/movie_title_data.frame$worldGross, sub='1/worldGross**2')
+par(mfrow = c(1,1))
+summary(log(movie_title_data.frame$worldGross)+2.3026)
+
 # colnames(movie_title_data.frame)
 # [1] "worldGross"          "originalTitle"       "startYear"           "runtimeMinutes"      "directors"          
 # [6] "writers"             "principalCast"       "averageRating"       "numVotes"            "isSport"            
@@ -31,7 +41,7 @@ View(data.frame)
 
 na.fill
 
-lmTrain = lm(formula = worldGross ~ ., data = data.frame)
+lmTrain = lm(formula = log(worldGross+1)~ ., data = data.frame)
 summary(lmTrain)
 
 New_data = data.frame(orginalTitle=)
